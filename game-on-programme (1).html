@@ -32,6 +32,13 @@
             line-height: 1.5;
         }
         
+        /* Hide default cursor on desktop */
+        @media (pointer: fine) {
+            body {
+                cursor: none;
+            }
+        }
+        
         .container {
             max-width: 1200px;
             margin: 0 auto;
@@ -301,7 +308,7 @@
             100% { text-shadow: 0 0 10px var(--accent), 0 0 20px var(--accent); }
         }
         
-        /* Pixel cursor */
+        /* Pixel cursor - only for desktop */
         .custom-cursor {
             position: fixed;
             width: 20px;
@@ -312,6 +319,7 @@
             transform: translate(-50%, -50%);
             transition: all 0.1s ease;
             z-index: 9999;
+            display: none; /* Hidden by default, will be shown via JS on desktop only */
         }
         
         /* Game animations */
@@ -653,23 +661,29 @@
     </div>
     
     <script>
-        // Custom cursor
+        // Custom cursor - only for desktop/laptop devices
         const cursor = document.querySelector('.custom-cursor');
+        const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0 || navigator.msMaxTouchPoints > 0;
         
-        document.addEventListener('mousemove', (e) => {
-            cursor.style.left = e.clientX + 'px';
-            cursor.style.top = e.clientY + 'px';
-        });
-        
-        document.addEventListener('mousedown', () => {
-            cursor.style.transform = 'translate(-50%, -50%) scale(0.8)';
-            cursor.style.borderColor = 'var(--pink)';
-        });
-        
-        document.addEventListener('mouseup', () => {
-            cursor.style.transform = 'translate(-50%, -50%) scale(1)';
-            cursor.style.borderColor = 'var(--accent)';
-        });
+        if (!isTouchDevice) {
+            // Only setup custom cursor for non-touch devices (desktop)
+            cursor.style.display = 'block';
+            
+            document.addEventListener('mousemove', (e) => {
+                cursor.style.left = e.clientX + 'px';
+                cursor.style.top = e.clientY + 'px';
+            });
+            
+            document.addEventListener('mousedown', () => {
+                cursor.style.transform = 'translate(-50%, -50%) scale(0.8)';
+                cursor.style.borderColor = 'var(--pink)';
+            });
+            
+            document.addEventListener('mouseup', () => {
+                cursor.style.transform = 'translate(-50%, -50%) scale(1)';
+                cursor.style.borderColor = 'var(--accent)';
+            });
+        }
         
         // Card flip functionality
         const flipBtns = document.querySelectorAll('.flip-btn');

@@ -370,13 +370,13 @@
             <div class="logo-title">
                 <h1>GAME ON</h1>
                 <div class="subtitle">CHARITY CONCERT</div>
-                <div class="subtitle">APOLLO MUSIC SOCIETY</div>
+                <div class="subtitle">APOLLO MUSIC SOCIETY PRESENTS</div>
             </div>
             
             <div class="game-icon" style="top: 20%; left: 10%;">🎮</div>
-            <div class="game-icon" style="top: 60%; left: 80%;">🎮</div>
-            <div class="game-icon" style="top: 30%; left: 85%;">🎮</div>
-            <div class="game-icon" style="top: 70%; left: 15%;">🎮</div>
+            <div class="game-icon" style="top: 60%; left: 80%;">🎵</div>
+            <div class="game-icon" style="top: 30%; left: 85%;">🎲</div>
+            <div class="game-icon" style="top: 70%; left: 15%;">🎯</div>
         </header>
         
         <div class="info">
@@ -754,21 +754,22 @@
         });
         
         function activateEasterEgg() {
-            // Retro game animation
-            const easterEgg = document.createElement('div');
-            easterEgg.style.position = 'fixed';
-            easterEgg.style.top = '0';
-            easterEgg.style.left = '0';
-            easterEgg.style.width = '100%';
-            easterEgg.style.height = '100%';
-            easterEgg.style.background = 'rgba(0, 0, 0, 0.8)';
-            easterEgg.style.zIndex = '9999';
-            easterEgg.style.display = 'flex';
-            easterEgg.style.alignItems = 'center';
-            easterEgg.style.justifyContent = 'center';
-            easterEgg.style.flexDirection = 'column';
-            easterEgg.style.color = '#fff';
-            easterEgg.style.fontFamily = "'Press Start 2P', cursive";
+            // Create secret level content
+            const secretLevel = document.createElement('div');
+            secretLevel.style.position = 'fixed';
+            secretLevel.style.top = '0';
+            secretLevel.style.left = '0';
+            secretLevel.style.width = '100%';
+            secretLevel.style.height = '100%';
+            secretLevel.style.background = 'rgba(0, 0, 0, 0.9)';
+            secretLevel.style.zIndex = '9999';
+            secretLevel.style.display = 'flex';
+            secretLevel.style.alignItems = 'center';
+            secretLevel.style.justifyContent = 'center';
+            secretLevel.style.flexDirection = 'column';
+            secretLevel.style.color = '#fff';
+            secretLevel.style.fontFamily = "'Press Start 2P', cursive";
+            secretLevel.setAttribute('id', 'secret-level');
             
             const message = document.createElement('div');
             message.textContent = 'SECRET LEVEL UNLOCKED!';
@@ -786,16 +787,13 @@
             closeBtn.style.fontFamily = "'Press Start 2P', cursive";
             closeBtn.style.fontSize = '1rem';
             closeBtn.style.cursor = 'pointer';
+            closeBtn.style.marginBottom = '2rem';
             
-            closeBtn.addEventListener('click', () => {
-                document.body.removeChild(easterEgg);
-            });
+            secretLevel.appendChild(message);
+            secretLevel.appendChild(closeBtn);
+            document.body.appendChild(secretLevel);
             
-            easterEgg.appendChild(message);
-            easterEgg.appendChild(closeBtn);
-            document.body.appendChild(easterEgg);
-            
-            // Play 8-bit sound
+            // Play 8-bit success sound
             const context = new (window.AudioContext || window.webkitAudioContext)();
             const notes = [440, 523.25, 659.25, 783.99];
             
@@ -816,6 +814,107 @@
                         oscillator.stop();
                     }, 200);
                 }, i * 200);
+            });
+            
+            // When CONTINUE is clicked, show the actual secret content
+            closeBtn.addEventListener('click', () => {
+                // Remove the initial message
+                message.remove();
+                closeBtn.remove();
+                
+                // Create secret content
+                const secretTitle = document.createElement('div');
+                secretTitle.textContent = 'BACKSTAGE ACCESS';
+                secretTitle.style.fontSize = '2rem';
+                secretTitle.style.marginBottom = '2rem';
+                secretTitle.style.color = '#ff66cc';
+                secretTitle.style.textShadow = '0 0 10px #00ccff';
+                
+                const secretContent = document.createElement('div');
+                secretContent.style.backgroundColor = 'rgba(51, 0, 102, 0.8)';
+                secretContent.style.padding = '2rem';
+                secretContent.style.borderRadius = '10px';
+                secretContent.style.maxWidth = '800px';
+                secretContent.style.width = '90%';
+                secretContent.style.maxHeight = '70vh';
+                secretContent.style.overflow = 'auto';
+                secretContent.style.border = '3px solid #ff66cc';
+                secretContent.style.boxShadow = '0 0 20px rgba(0, 204, 255, 0.5)';
+                secretContent.style.textAlign = 'center';
+                
+                // Secret content details
+                const secretInfo = document.createElement('div');
+                secretInfo.innerHTML = `
+                    <p style="margin-bottom: 1rem; font-size: 0.8rem; line-height: 1.5;">CONGRATULATIONS, CHEAT CODE MASTER!</p>
+                    <p style="margin-bottom: 1.5rem; font-size: 0.6rem; line-height: 1.5;">YOU'VE UNLOCKED SECRET REHEARSAL FOOTAGE AND EXCLUSIVE INFO!</p>
+                    
+                    <div style="margin: 2rem 0; text-align: left;">
+                        <h3 style="color: #00ccff; margin-bottom: 1rem; font-size: 0.9rem;">SECRET SONG REVEALS:</h3>
+                        <ul style="list-style-type: none; padding: 0; font-size: 0.6rem; line-height: 1.8;">
+                            <li>→ CHOIR WILL PERFORM A SURPRISE ENCORE: "STILL ALIVE" FROM PORTAL</li>
+                            <li>→ THE OTHER WILL DEBUT AN ORIGINAL COMPOSITION INSPIRED BY TETRIS</li>
+                            <li>→ JAZZ BAND AND STRINGS ENSEMBLE WILL COLLABORATE ON A ZELDA MEDLEY</li>
+                        </ul>
+                    </div>
+                    
+                    <div style="margin: 2rem 0;">
+                        <h3 style="color: #00ccff; margin-bottom: 1rem; font-size: 0.9rem;">EXCLUSIVE CHEAT CODE FOR THE CONCERT:</h3>
+                        <p style="font-size: 0.7rem; color: #ff66cc; margin-bottom: 0.5rem;">SHOW THIS CODE AT THE MERCH TABLE FOR A SECRET DISCOUNT:</p>
+                        <div style="background: #330066; color: #00ccff; padding: 1rem; font-size: 1rem; letter-spacing: 5px; display: inline-block; border: 2px dashed #ff66cc; margin: 1rem 0;">KONAMI25</div>
+                    </div>
+                    
+                    <div style="margin: 2rem 0; text-align: center;">
+                        <h3 style="color: #00ccff; margin-bottom: 1rem; font-size: 0.9rem;">BACKSTAGE REHEARSAL:</h3>
+                        <div style="width: 320px; height: 180px; margin: 0 auto; background: #221133; display: flex; align-items: center; justify-content: center; border: 2px solid #ff66cc;">
+                            <p style="font-size: 0.6rem; color: #ff66cc;">[EXCLUSIVE VIDEO CONTENT]</p>
+                        </div>
+                        <p style="font-size: 0.5rem; margin-top: 0.5rem; color: #cccccc;">VIDEO PLACEHOLDER - WILL BE ACTIVATED ON CONCERT DAY</p>
+                    </div>
+                `;
+                
+                const exitButton = document.createElement('button');
+                exitButton.textContent = 'EXIT BACKSTAGE';
+                exitButton.style.padding = '1rem 2rem';
+                exitButton.style.background = '#ff66cc';
+                exitButton.style.border = 'none';
+                exitButton.style.borderRadius = '5px';
+                exitButton.style.fontFamily = "'Press Start 2P', cursive";
+                exitButton.style.fontSize = '0.7rem';
+                exitButton.style.cursor = 'pointer';
+                exitButton.style.marginTop = '1.5rem';
+                
+                secretContent.appendChild(secretInfo);
+                
+                secretLevel.appendChild(secretTitle);
+                secretLevel.appendChild(secretContent);
+                secretLevel.appendChild(exitButton);
+                
+                // Exit button closes the secret level
+                exitButton.addEventListener('click', () => {
+                    document.body.removeChild(secretLevel);
+                });
+                
+                // Play a different sound for revealing the secret content
+                const revealNotes = [523.25, 659.25, 783.99, 1046.50];
+                
+                revealNotes.forEach((freq, i) => {
+                    setTimeout(() => {
+                        const oscillator = context.createOscillator();
+                        const gainNode = context.createGain();
+                        
+                        oscillator.type = 'square';
+                        oscillator.frequency.value = freq;
+                        gainNode.gain.value = 0.1;
+                        
+                        oscillator.connect(gainNode);
+                        gainNode.connect(context.destination);
+                        
+                        oscillator.start();
+                        setTimeout(() => {
+                            oscillator.stop();
+                        }, 200);
+                    }, i * 200);
+                });
             });
         }
     </script>

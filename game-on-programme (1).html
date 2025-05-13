@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game On: Charity Concert - Apollo Music Society</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+        
+        :root {
+            --primary: #330066;
+            --secondary: #9900cc;
+            --accent: #00ccff;
+            --pink: #ff66cc;
+            --text: #ffffff;
+            --dark: #110022;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background-color: var(--dark);
+            color: var(--text);
+            font-family: 'Press Start 2P', cursive;
+            background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxkZWZzPjxwYXR0ZXJuIGlkPSJzdGFycyIgd2lkdGg9IjEwMCIgaGVpZ2h0PSIxMDAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPjxjaXJjbGUgY3g9IjUiIGN5PSI1IiByPSIxIiBmaWxsPSJ3aGl0ZSIgb3BhY2l0eT0iMC41Ii8+PGNpcmNsZSBjeD0iNTAiIGN5PSIxMCIgcj0iMiIgZmlsbD0id2hpdGUiIG9wYWNpdHk9IjAuMyIvPjxjaXJjbGUgY3g9IjgwIiBjeT0iMzAiIHI9IjEuNSIgZmlsbD0id2hpdGUiIG9wYWNpdHk9IjAuNCIvPjxjaXJjbGUgY3g9IjIwIiBjeT0iNjAiIHI9IjEiIGZpbGw9IndoaXRlIiBvcGFjaXR5PSIwLjUiLz48Y2lyY2xlIGN4PSI5MCIgY3k9IjkwIiByPSIyIiBmaWxsPSJ3aGl0ZSIgb3BhY2l0eT0iMC4zIi8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjMTEwMDIyIi8+PHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNzdGFycykiLz48L3N2Zz4=');
+            background-attachment: fixed;
+            overflow-x: hidden;
+            line-height: 1.5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        header {
+            text-align: center;
+            padding: 2rem 0;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            margin-bottom: 3rem;
+        }
+        
+        .logo-title {
+            position: relative;
+            z-index: 2;
+        }
+        
+        h1 {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 10px var(--accent), 0 0 20px var(--accent);
+            background: linear-gradient(to right, var(--accent), var(--pink));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            display: inline-block;
+            animation: glow 3s ease-in-out infinite;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            color: white;
+            margin-bottom: 1.5rem;
+            text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+        
+        .info {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            font-size: 0.7rem;
+        }
+        
+        .info-box {
+            background-color: rgba(17, 0, 34, 0.7);
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(255, 102, 204, 0.3);
+            transition: all 0.3s ease;
+            border: 2px solid var(--pink);
+            line-height: 1.8;
+        }
+        
+        .info-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 20px rgba(255, 102, 204, 0.6);
+        }
+        
+        .acts-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .act-card {
+            background-color: rgba(51, 0, 102, 0.7);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            transform-style: preserve-3d;
+            position: relative;
+            height: 450px;
+            perspective: 1000px;
+        }
+        
+        .act-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+        }
+        
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        
+        .card-back {
+            transform: rotateY(180deg);
+            padding: 1.5rem;
+            overflow-y: auto;
+            background-color: rgba(51, 0, 102, 0.95);
+        }
+        
+        .act-card.flipped .card-front {
+            transform: rotateY(180deg);
+        }
+        
+        .act-card.flipped .card-back {
+            transform: rotateY(0deg);
+        }
+        
+        .act-header {
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
+            padding: 1.5rem;
+            text-align: center;
+        }
+        
+        .act-title {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: white;
+            line-height: 1.5;
+        }
+        
+        .act-icon {
+            font-size: 3rem;
+            margin: 2rem 0;
+            text-align: center;
+        }
+        
+        .setlist {
+            margin-top: 1.5rem;
+        }
+        
+        .song {
+            padding: 0.8rem;
+            margin-bottom: 1rem;
+            background-color: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            border-left: 3px solid var(--accent);
+            font-size: 0.5rem;
+            line-height: 1.5;
+        }
+        
+        .song-title {
+            color: white;
+        }
+        
+        .song-game {
+            font-style: italic;
+            color: var(--pink);
+            font-size: 0.45rem;
+            margin-top: 0.5rem;
+        }
+        
+        .song-composer {
+            font-size: 0.45rem;
+            color: #cccccc;
+            margin-top: 0.5rem;
+        }
+        
+        .flip-btn {
+            position: absolute;
+            bottom: 1rem;
+            right: 1rem;
+            background-color: var(--accent);
+            color: var(--dark);
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.7rem;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+        
+        .flip-btn:hover {
+            background-color: var(--pink);
+            transform: scale(1.05);
+        }
+        
+        .back-btn {
+            background-color: var(--pink);
+            color: var(--dark);
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.7rem;
+            margin-top: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .back-btn:hover {
+            background-color: var(--accent);
+            transform: scale(1.05);
+        }
+        
+        .charity-section {
+            margin-top: 4rem;
+            text-align: center;
+            padding: 2rem;
+            background-color: rgba(51, 0, 102, 0.5);
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .charity-title {
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            color: white;
+            line-height: 1.5;
+        }
+        
+        .charity-logo {
+            max-width: 200px;
+            margin: 1rem auto;
+        }
+        
+        .charity-info {
+            max-width: 600px;
+            margin: 0 auto;
+            font-size: 0.6rem;
+            line-height: 1.8;
+        }
+        
+        footer {
+            margin-top: 4rem;
+            text-align: center;
+            padding: 2rem;
+            background-color: var(--dark);
+            font-size: 0.5rem;
+            line-height: 1.8;
+        }
+        
+        .pixel-border {
+            position: relative;
+        }
+        
+        .pixel-border::after {
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: -5px;
+            right: -5px;
+            bottom: -5px;
+            background: linear-gradient(45deg, var(--accent), var(--pink), var(--secondary), var(--accent));
+            z-index: -1;
+            border-radius: 20px;
+            animation: border-animation 4s linear infinite;
+        }
+        
+        @keyframes border-animation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        @keyframes glow {
+            0% { text-shadow: 0 0 10px var(--accent), 0 0 20px var(--accent); }
+            50% { text-shadow: 0 0 20px var(--accent), 0 0 30px var(--pink), 0 0 40px var(--pink); }
+            100% { text-shadow: 0 0 10px var(--accent), 0 0 20px var(--accent); }
+        }
+        
+        /* Pixel cursor */
+        .custom-cursor {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--accent);
+            border-radius: 50%;
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            transition: all 0.1s ease;
+            z-index: 9999;
+        }
+        
+        /* Game animations */
+        .game-icon {
+            position: absolute;
+            opacity: 0.2;
+            z-index: 1;
+            animation: float 8s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+            100% { transform: translateY(0) rotate(0deg); }
+        }
+        
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.3rem;
+            }
+            
+            .subtitle {
+                font-size: 0.8rem;
+            }
+            
+            .acts-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .info {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .act-card {
+                height: 400px;
+            }
+            
+            .song {
+                font-size: 0.45rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="custom-cursor"></div>
+    
+    <div class="container">
+        <header class="pixel-border">
+            <div class="logo-title">
+                <h1>GAME ON</h1>
+                <div class="subtitle">CHARITY CONCERT</div>
+                <div class="subtitle">APOLLO MUSIC SOCIETY PRESENTS</div>
+            </div>
+            
+            <div class="game-icon" style="top: 20%; left: 10%;">🎮</div>
+            <div class="game-icon" style="top: 60%; left: 80%;">🎵</div>
+            <div class="game-icon" style="top: 30%; left: 85%;">🎲</div>
+            <div class="game-icon" style="top: 70%; left: 15%;">🎯</div>
+        </header>
+        
+        <div class="info">
+            <div class="info-box">
+                <p>📅 FRIDAY 30TH MAY</p>
+                <p>⏰ 6PM - 9PM</p>
+            </div>
+            <div class="info-box">
+                <p>📍 MARKET HALL</p>
+                <p>THE UNIVERSITY OF MELBOURNE</p>
+            </div>
+            <div class="info-box">
+                <p>💰 ALL PROCEEDS WILL GO TO</p>
+                <p>PETER MAC CANCER CENTRE</p>
+            </div>
+        </div>
+        
+        <div class="acts-container">
+            <!-- Choir Card -->
+            <div class="act-card">
+                <div class="card-front">
+                    <div class="act-header">
+                        <div class="act-title">CHOIR</div>
+                    </div>
+                    <div class="act-icon">🎵</div>
+                    <button class="flip-btn">VIEW SETLIST</button>
+                </div>
+                <div class="card-back">
+                    <div class="act-title" style="font-size: 1.2rem;">CHOIR</div>
+                    <div class="setlist">
+                        <div class="song">
+                            <div class="song-title">Sing Gently</div>
+                            <div class="song-composer">by Eric Whitacre</div>
+                        </div>
+                        <div class="song">
+                            <div class="song-title">If Ye Love Me</div>
+                            <div class="song-composer">by Thomas Tallis</div>
+                        </div>
+                    </div>
+                    <button class="back-btn">BACK</button>
+                </div>
+            </div>
+            
+            <!-- Acapollo Card -->
+            <div class="act-card">
+                <div class="card-front">
+                    <div class="act-header">
+                        <div class="act-title">ACAPOLLO</div>
+                    </div>
+                    <div class="act-icon">🎤</div>
+                    <button class="flip-btn">VIEW SETLIST</button>
+                </div>
+                <div class="card-back">
+                    <div class="act-title" style="font-size: 1.2rem;">ACAPOLLO</div>
+                    <div class="setlist">
+                        <div class="song">
+                            <div class="song-title">Die with a Smile</div>
+                            <div class="song-composer">by Lady Gaga & Bruno Mars arr. by Heidi Pardinas</div>
+                        </div>
+                        <div class="song">
+                            <div class="song-title">GODS</div>
+                            <div class="song-composer">by NewJeans arr. by Sara Lui</div>
+                            <div class="song-game">(League of Legends)</div>
+                        </div>
+                        <div class="song">
+                            <div class="song-title">In the Blood</div>
+                            <div class="song-composer">by Darren Korb & Ashley Barrett arr. by Heidi Pardinas & Sara Lui</div>
+                        </div>
+                    </div>
+                    <button class="back-btn">BACK</button>
+                </div>
+            </div>
+            
+            <!-- Guitar Ensemble Card -->
+            <div class="act-card">
+                <div class="card-front">
+                    <div class="act-header">
+                        <div class="act-title">GUITAR ENSEMBLE</div>
+                    </div>
+                    <div class="act-icon">🎸</div>
+                    <button class="flip-btn">VIEW SETLIST</button>
+                </div>
+                <div class="card-back">
+                    <div class="act-title" style="font-size: 1.2rem;">GUITAR ENSEMBLE</div>
+                    <div class="setlist">
+                        <div class="song">
+                            <div class="song-title">Fallen Down</div>
+                            <div class="song-composer">by Toby Fox</div>
+                            <div class="song-game">(Undertale)</div>
+                        </div>
+                        <div class="song">
+                            <div class="song-title">Sweden</div>
+                            <div class="song-composer">by C418</div>
+                            <div class="song-game">(Minecraft)</div>
+                        </div>
+                        <div class="song">
+                            <div class="song-title">Final Duet</div>
+                            <div class="song-composer">by Pedro Silva</div>
+                            <div class="song-game">(OMORI)</div>
+                        </div>
+                    </div>
+                    <button class="back-btn">BACK</button>
+                </div>
+            </div>
+            
+            <!-- Fusion Stage Band Card -->
+            <div class="act-card">
+                <div class="card-front">
+                    <div class="act-header">
+                        <div class="act-title">FUSION STAGE BAND</div>
+                    </div>
+                    <div class="act-icon">🎷</div>
+                    <button class="flip-btn">VIEW SETLIST</button>
+                </div>
+                <div class="card-back">
+                    <div class="act-title" style="font-size: 1rem;">FUSION STAGE BAND</div>
+                    <div class="setlist">
+                        <div class="song">
+                            <div class="song-title">Dragonborn</div>
+                            <div class="song-composer">by Jeremy Soule arr. Patrick Glenn Harper, Zoe Malone</div>
+                            <div class="song-game">(Skyrim)</div>
+                        </div>
+                        <div class="song">
+                            <div class="song-title">Ballad of the Goddess</div>
+                            <div class="song-composer">by Hajime Wakai & Takeshi Hama arr. Madeleine Salisbury</div>
+                            <div class="song-game">(Legend of Zelda: Skyward Sword)</div>
+                        </div>
+                        <div class="song">
+                            <div class="song-title">Baba Yetu</div>
+                            <div class="song-composer">by Christopher Tin arr. Johnnie Vinson, Zoe Malone</div>
+                            <div class="song-game">(Civilization 4)</div>
+                        </div>
+                        <div class="song">
+                            <div class="song-title">Sogno di Volare ("The Dream of Flight")</div>
+                            <div class="song-composer">by Christopher Tin arr. Matt Conaway, Zoe Malone</div>
+                            <div class="song-game">(Civilization 6)</div>
+                            <div class="song-note">in collaboration with Choir</div>
+                        </div>
+                    </div>
+                    <button class="back-btn">BACK</button>
+                </div>
+            </div>
+            
+            <!-- The Other Card -->
+            <div class="act-card">
+                <div class="card-front">
+                    <div class="act-header">
+                        <div class="act-title">THE OTHER</div>
+                    </div>
+                    <div class="act-icon">🤘</div>
+                    <button class="flip-btn">VIEW SETLIST</button>
+                </div>
+                <div class="card-back">
+                    <div class="act-title" style="font-size: 1.2rem;">THE OTHER</div>
+                    <div class="setlist">
+                        <div class="song">
+                            <div class="song-title">At Doom's Gate</div>
+                            <div class="song-composer">by Mick Gordon</div>
+                            <div class="song-game">(Doom)</div>
+                        </div>
+                        <div class="song">
+                            <div class="song-title">Bullet With Butterfly Wings</div>
+                            <div class="song-composer">by The Smashing Pumpkins</div>
+                        </div>
+                        <div class="song">
+                            <div class="song-title">Killer Queen</div>
+                            <div class="song-composer">by Queen</div>
+                        </div>
+                    </div>
+                    <button class="back-btn">BACK</button>
+                </div>
+            </div>
+            
+            <!-- Jazz Band Card -->
+            <div class="act-card">
+                <div class="card-front">
+                    <div class="act-header">
+                        <div class="act-title">JAZZ BAND</div>
+                    </div>
+                    <div class="act-icon">🎺</div>
+                    <button class="flip-btn">VIEW SETLIST</button>
+                </div>
+                <div class="card-back">
+                    <div class="act-title" style="font-size: 1.2rem;">JAZZ BAND</div>
+                    <div class="setlist">
+                        <div class="song">
+                            <div class="song-title">Jump Up, Super Star!</div>
+                            <div class="song-composer">by Naoto Kuno & Rob Tunstall</div>
+                            <div class="song-game">(Super Mario Odyssey)</div>
+                        </div>
+                        <div class="song">
+                            <div class="song-title">I've Got You Under My Skin</div>
+                            <div class="song-composer">by Cole Porter</div>
+                            <div class="song-game">(Batman: Arkham Knight)</div>
+                        </div>
+                        <div class="song">
+                            <div class="song-title">The Credits Roll</div>
+                            <div class="song-composer">by Koji Kondo</div>
+                            <div class="song-game">(Super Mario 3D World)</div>
+                        </div>
+                    </div>
+                    <button class="back-btn">BACK</button>
+                </div>
+            </div>
+            
+            <!-- Branded Aux Card -->
+            <div class="act-card">
+                <div class="card-front">
+                    <div class="act-header">
+                        <div class="act-title">BRANDED AUX</div>
+                    </div>
+                    <div class="act-icon">🎹</div>
+                    <button class="flip-btn">VIEW SETLIST</button>
+                </div>
+                <div class="card-back">
+                    <div class="act-title" style="font-size: 1.2rem;">BRANDED AUX</div>
+                    <div class="setlist">
+                        <div class="song">
+                            <div class="song-title">Life Will Change</div>
+                            <div class="song-composer">by Shoji Meguro</div>
+                            <div class="song-game">(Persona 5)</div>
+                        </div>
+                        <div class="song">
+                            <div class="song-title">7</div>
+                            <div class="song-composer">by Catfish and the Bottlemen</div>
+                        </div>
+                        <div class="song">
+                            <div class="song-title">How I Wish</div>
+                            <div class="song-composer">by Branded Aux arr. Collin Leonardo</div>
+                        </div>
+                    </div>
+                    <button class="back-btn">BACK</button>
+                </div>
+            </div>
+            
+            <!-- Strings Ensemble Card -->
+            <div class="act-card">
+                <div class="card-front">
+                    <div class="act-header">
+                        <div class="act-title">STRINGS ENSEMBLE</div>
+                    </div>
+                    <div class="act-icon">🎻</div>
+                    <button class="flip-btn">VIEW SETLIST</button>
+                </div>
+                <div class="card-back">
+                    <div class="act-title" style="font-size: 1.2rem;">STRINGS ENSEMBLE</div>
+                    <div class="setlist">
+                        <div class="song">
+                            <div class="song-title">Star Dew Valley Suite</div>
+                            <div class="song-game">(Stardew Valley)</div>
+                        </div>
+                        <div class="song">
+                            <div class="song-title">Bubble Gum K</div>
+                            <div class="song-game">(Animal Crossing)</div>
+                        </div>
+                        <div class="song">
+                            <div class="song-title">Rosalina In the Observatory</div>
+                            <div class="song-game">(Mario Galaxy)</div>
+                        </div>
+                    </div>
+                    <button class="back-btn">BACK</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="charity-section pixel-border">
+            <h2 class="charity-title">SUPPORTING PETER MAC CANCER CENTRE</h2>
+            <div style="width:120px; height:120px; margin:0 auto; background:linear-gradient(135deg, #aa0082, #ff66cc); border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:3rem; margin-bottom:1rem;">❤️</div>
+            <div class="charity-info">
+                <p>All proceeds from this event will go directly to the Peter MacCallum Cancer Centre to support their vital research and patient care programs.</p>
+                <p style="margin-top:1rem;">Thank you for supporting this important cause while enjoying an evening of game-inspired music!</p>
+            </div>
+        </div>
+        
+        <footer>
+            <p>Created by Apollo Music Society</p>
+            <p>© 2025 - University of Melbourne</p>
+        </footer>
+    </div>
+    
+    <script>
+        // Custom cursor
+        const cursor = document.querySelector('.custom-cursor');
+        
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
+        
+        document.addEventListener('mousedown', () => {
+            cursor.style.transform = 'translate(-50%, -50%) scale(0.8)';
+            cursor.style.borderColor = 'var(--pink)';
+        });
+        
+        document.addEventListener('mouseup', () => {
+            cursor.style.transform = 'translate(-50%, -50%) scale(1)';
+            cursor.style.borderColor = 'var(--accent)';
+        });
+        
+        // Card flip functionality
+        const flipBtns = document.querySelectorAll('.flip-btn');
+        const backBtns = document.querySelectorAll('.back-btn');
+        
+        flipBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const card = btn.closest('.act-card');
+                card.classList.add('flipped');
+                // Add pixelated sound effect
+                playSound('flip');
+            });
+        });
+        
+        backBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const card = btn.closest('.act-card');
+                card.classList.remove('flipped');
+                // Add pixelated sound effect
+                playSound('flip-back');
+            });
+        });
+        
+        // Add game-inspired sound effects
+        function playSound(type) {
+            const audio = new Audio();
+            
+            if (type === 'flip') {
+                // Simple beep sound for flipping card
+                const context = new (window.AudioContext || window.webkitAudioContext)();
+                const oscillator = context.createOscillator();
+                const gainNode = context.createGain();
+                
+                oscillator.type = 'square';
+                oscillator.frequency.value = 440;
+                gainNode.gain.value = 0.1;
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(context.destination);
+                
+                oscillator.start();
+                setTimeout(() => {
+                    oscillator.stop();
+                }, 100);
+            } else if (type === 'flip-back') {
+                // Different pitch for flipping back
+                const context = new (window.AudioContext || window.webkitAudioContext)();
+                const oscillator = context.createOscillator();
+                const gainNode = context.createGain();
+                
+                oscillator.type = 'square';
+                oscillator.frequency.value = 330;
+                gainNode.gain.value = 0.1;
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(context.destination);
+                
+                oscillator.start();
+                setTimeout(() => {
+                    oscillator.stop();
+                }, 100);
+            }
+        }
+        
+        // Add floating animation timing variations
+        const gameIcons = document.querySelectorAll('.game-icon');
+        gameIcons.forEach((icon, index) => {
+            icon.style.animationDelay = `${index * 0.5}s`;
+        });
+        
+        // Parallax effect on header
+        const header = document.querySelector('header');
+        window.addEventListener('scroll', () => {
+            const scrollPos = window.scrollY;
+            header.style.backgroundPosition = `center ${scrollPos * 0.5}px`;
+        });
+        
+        // Easter egg - Konami code
+        let konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
+        let konamiPosition = 0;
+        
+        document.addEventListener('keydown', (e) => {
+            if (e.key === konamiCode[konamiPosition]) {
+                konamiPosition++;
+                
+                if (konamiPosition === konamiCode.length) {
+                    activateEasterEgg();
+                    konamiPosition = 0;
+                }
+            } else {
+                konamiPosition = 0;
+            }
+        });
+        
+        function activateEasterEgg() {
+            // Retro game animation
+            const easterEgg = document.createElement('div');
+            easterEgg.style.position = 'fixed';
+            easterEgg.style.top = '0';
+            easterEgg.style.left = '0';
+            easterEgg.style.width = '100%';
+            easterEgg.style.height = '100%';
+            easterEgg.style.background = 'rgba(0, 0, 0, 0.8)';
+            easterEgg.style.zIndex = '9999';
+            easterEgg.style.display = 'flex';
+            easterEgg.style.alignItems = 'center';
+            easterEgg.style.justifyContent = 'center';
+            easterEgg.style.flexDirection = 'column';
+            easterEgg.style.color = '#fff';
+            easterEgg.style.fontFamily = "'Press Start 2P', cursive";
+            
+            const message = document.createElement('div');
+            message.textContent = 'SECRET LEVEL UNLOCKED!';
+            message.style.fontSize = '2rem';
+            message.style.marginBottom = '2rem';
+            message.style.color = '#ff66cc';
+            message.style.textShadow = '0 0 10px #00ccff';
+            
+            const closeBtn = document.createElement('button');
+            closeBtn.textContent = 'CONTINUE';
+            closeBtn.style.padding = '1rem 2rem';
+            closeBtn.style.background = '#00ccff';
+            closeBtn.style.border = 'none';
+            closeBtn.style.borderRadius = '5px';
+            closeBtn.style.fontFamily = "'Press Start 2P', cursive";
+            closeBtn.style.fontSize = '1rem';
+            closeBtn.style.cursor = 'pointer';
+            
+            closeBtn.addEventListener('click', () => {
+                document.body.removeChild(easterEgg);
+            });
+            
+            easterEgg.appendChild(message);
+            easterEgg.appendChild(closeBtn);
+            document.body.appendChild(easterEgg);
+            
+            // Play 8-bit sound
+            const context = new (window.AudioContext || window.webkitAudioContext)();
+            const notes = [440, 523.25, 659.25, 783.99];
+            
+            notes.forEach((freq, i) => {
+                setTimeout(() => {
+                    const oscillator = context.createOscillator();
+                    const gainNode = context.createGain();
+                    
+                    oscillator.type = 'square';
+                    oscillator.frequency.value = freq;
+                    gainNode.gain.value = 0.1;
+                    
+                    oscillator.connect(gainNode);
+                    gainNode.connect(context.destination);
+                    
+                    oscillator.start();
+                    setTimeout(() => {
+                        oscillator.stop();
+                    }, 200);
+                }, i * 200);
+            });
+        }
+    </script>
+</body>
+</html>

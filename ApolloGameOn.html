@@ -34,9 +34,14 @@
         
         /* Hide default cursor on desktop */
         @media (pointer: fine) {
-            body, button, a, .flip-btn, .back-btn, [role="button"], 
-            input[type="submit"], input[type="button"], input[type="reset"] {
-                cursor: none !important;
+            body {
+                cursor: url('cursor-arrow.png'), auto;
+            }
+            
+            button, a, .flip-btn, .back-btn, [role="button"], 
+            input[type="submit"], input[type="button"], input[type="reset"],
+            .act-card:hover {
+                cursor: url('cursor-pointer.png'), pointer !important;
             }
         }
         
@@ -311,16 +316,7 @@
         
         /* Pixel cursor - only for desktop */
         .custom-cursor {
-            position: fixed;
-            width: 20px;
-            height: 20px;
-            border: 2px solid var(--accent);
-            border-radius: 50%;
-            pointer-events: none;
-            transform: translate(-50%, -50%);
-            transition: all 0.1s ease;
-            z-index: 9999;
-            display: none; /* Hidden by default, will be shown via JS on desktop only */
+            display: none; /* We're using CSS cursors instead */
         }
         
         /* Game animations */
@@ -372,9 +368,9 @@
     <div class="container">
         <header class="pixel-border">
             <div class="logo-title">
-                <div class="subtitle">APOLLO MUSIC SOCIETY PRESENTS</div>
                 <h1>GAME ON</h1>
                 <div class="subtitle">CHARITY CONCERT</div>
+                <div class="subtitle">APOLLO MUSIC SOCIETY</div>
             </div>
             
             <div class="game-icon" style="top: 20%; left: 10%;">🎮</div>
@@ -662,29 +658,7 @@
     </div>
     
     <script>
-        // Custom cursor - only for desktop/laptop devices
-        const cursor = document.querySelector('.custom-cursor');
-        const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0 || navigator.msMaxTouchPoints > 0;
-        
-        if (!isTouchDevice) {
-            // Only setup custom cursor for non-touch devices (desktop)
-            cursor.style.display = 'block';
-            
-            document.addEventListener('mousemove', (e) => {
-                cursor.style.left = e.clientX + 'px';
-                cursor.style.top = e.clientY + 'px';
-            });
-            
-            document.addEventListener('mousedown', () => {
-                cursor.style.transform = 'translate(-50%, -50%) scale(0.8)';
-                cursor.style.borderColor = 'var(--pink)';
-            });
-            
-            document.addEventListener('mouseup', () => {
-                cursor.style.transform = 'translate(-50%, -50%) scale(1)';
-                cursor.style.borderColor = 'var(--accent)';
-            });
-        }
+        // We no longer need the custom cursor JS since we're using CSS cursors
         
         // Card flip functionality
         const flipBtns = document.querySelectorAll('.flip-btn');

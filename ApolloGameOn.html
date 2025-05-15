@@ -494,16 +494,29 @@
                 min-width: 150px;
             }
         }
-        /* Ticket Box Styling */
-        .ticket-box {
+        /* Prominent Ticket Section */
+        .ticket-section {
+            margin: 3rem auto;
+            text-align: center;
+            max-width: 500px;
+        }
+
+        .ticket-btn {
+            display: block;
             background-color: #00cc44; /* Green color */
-            border: 2px solid #009933;
+            border: 3px solid #009933;
+            border-radius: 10px;
+            padding: 1.5rem;
+            text-decoration: none;
+            color: var(--dark);
+            font-family: 'Press Start 2P', cursive;
+            box-shadow: 0 6px 0 rgba(0, 0, 0, 0.3);
             transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
         }
 
-        .ticket-box::after {
+        .ticket-btn::after {
             content: '';
             position: absolute;
             top: 0;
@@ -513,20 +526,55 @@
             background-image: linear-gradient(rgba(255, 255, 255, 0.2) 50%, transparent 50%);
             background-size: 100% 4px;
             pointer-events: none;
-            z-index: 1;
         }
 
-        .ticket-box:hover {
+        .ticket-btn:hover {
             transform: translateY(-5px);
-            box-shadow: 0 0 20px rgba(0, 204, 68, 0.6);
+            box-shadow: 0 10px 0 rgba(0, 0, 0, 0.3);
+            background-color: #00e64d;
         }
 
-        .ticket-link {
-            color: var(--dark);
-            text-decoration: none;
-            display: block;
+        .ticket-btn:active {
+            transform: translateY(3px);
+            box-shadow: 0 3px 0 rgba(0, 0, 0, 0.3);
         }
 
+        .ticket-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .ticket-text {
+            font-size: 1.3rem;
+            line-height: 1.5;
+        }
+
+        /* Pulse animation for extra attention */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .ticket-btn {
+            animation: pulse 2s infinite;
+        }
+
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            .ticket-section {
+                margin: 2rem auto;
+                padding: 0 1rem;
+            }
+            
+            .ticket-icon {
+                font-size: 2rem;
+            }
+            
+            .ticket-text {
+                font-size: 1rem;
+            }
+        }
         /* Media query adjustment for better mobile display with 4 boxes */
         @media (max-width: 768px) {
             .info {
@@ -586,7 +634,13 @@
             </div>
             
         </div>
-        
+        <!-- Prominent Ticket Link Section -->
+        <div class="ticket-section">
+            <a href="https://www.trybooking.com/events/landing/1386769" class="ticket-btn" target="_blank">
+                <div class="ticket-icon">🎟️</div>
+                <div class="ticket-text">GET YOUR TICKETS!</div>
+            </a>
+        </div>
         <div class="acts-container">
             <!-- Choir Card -->
             <div class="act-card">

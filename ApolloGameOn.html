@@ -333,6 +333,32 @@
             100% { transform: translateY(0) rotate(0deg); }
         }
         
+        /* Afterparty Text Bubble */
+        .afterparty-bubble {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            width: 150px;
+            text-align: center;
+            font-size: 0.6rem;
+            color: var(--pink);
+            text-shadow: 0 0 10px var(--accent), 0 0 5px var(--accent);
+            background-color: rgba(17, 0, 34, 0.7);
+            padding: 12px;
+            border-radius: 10px;
+            border: 2px solid var(--pink);
+            box-shadow: 0 0 10px rgba(0, 204, 255, 0.5);
+            animation: pulse 2s infinite;
+            z-index: 1000;
+            cursor: pointer;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); box-shadow: 0 0 15px rgba(0, 204, 255, 0.7); }
+            100% { transform: scale(1); }
+        }
+        
         /* Responsive styles */
         @media (max-width: 768px) {
             h1 {
@@ -359,11 +385,27 @@
             .song {
                 font-size: 0.45rem;
             }
+            
+            .afterparty-bubble {
+                width: 120px;
+                bottom: 10px;
+                left: 10px;
+                font-size: 0.5rem;
+                padding: 8px;
+            }
         }
     </style>
 </head>
 <body>
     <div class="custom-cursor"></div>
+    
+    <!-- Afterparty Text Bubble -->
+    <div class="afterparty-bubble" onclick="alert('AFTERPARTY INFO! 🎮\\n\\nJoin us after the show at BALLERS CLUBHOUSE!\\nShow your concert ticket for a free welcome drink!')">
+        <div style="color: var(--text);">COME TO THE</div>
+        <div style="color: var(--accent); font-size: 0.7rem; margin: 4px 0;">AFTERPARTY!</div>
+        <div style="color: var(--text); font-size: 0.55rem; margin-top: 5px;">LOCATION:</div>
+        <div style="color: var(--pink);">BALLERS CLUBHOUSE</div>
+    </div>
     
     <div class="container">
         <header class="pixel-border">
@@ -656,92 +698,7 @@
             <p>© 2025 - University of Melbourne</p>
         </footer>
     </div>
-    <body>
-        <!-- 3D Sphere Container -->
-        <div id="sphere-container"></div>
-        <div class="sphere-text">
-            <div style="color: var(--text);">COME TO THE</div>
-            <div style="color: var(--accent); font-size: 0.7rem; margin: 4px 0;">AFTERPARTY!</div>
-            <div style="color: var(--text); font-size: 0.55rem; margin-top: 5px;">LOCATION:</div>
-            <div style="color: var(--pink);">BALLERS CLUBHOUSE</div>
-        </div>
-        
-        <header>
-            GAME ON: CHARITY CONCERT
-        </header>
-        
-        <script>
-            // 3D Sphere animation with Three.js
-            function init3DSphere() {
-                // Create scene
-                const scene = new THREE.Scene();
-                
-                // Create camera
-                const camera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000);
-                camera.position.z = 2;
-                
-                // Create renderer
-                const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-                renderer.setSize(150, 150);
-                renderer.setClearColor(0x000000, 0); // transparent background
-                
-                // Add renderer to DOM
-                const container = document.getElementById('sphere-container');
-                container.appendChild(renderer.domElement);
-                
-                // Create sphere geometry
-                const geometry = new THREE.SphereGeometry(1, 32, 32);
-                
-                // Create material with custom shader for retro game effect
-                const material = new THREE.ShaderMaterial({
-                    uniforms: {
-                        time: { value: 1.0 },
-                        color1: { value: new THREE.Color("#9900cc") }, // secondary color
-                        color2: { value: new THREE.Color("#00ccff") }  // accent color
-                    },
-                    vertexShader: `
-                        varying vec2 vUv;
-                        varying vec3 vPosition;
-                        void main() {
-                            vUv = uv;
-                            vPosition = position;
-                            gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-                        }
-                    `,
-                    fragmentShader: `
-                        uniform float time;
-                        uniform vec3 color1;
-                        uniform vec3 color2;
-                        varying vec2 vUv;
-                        varying vec3 vPosition;
-                        
-                        void main() {
-                            // Create grid pattern
-                            float gridSize = 15.0;
-                            vec2 grid = fract(vUv * gridSize);
-                            float gridLine = step(0.95, grid.x) + step(0.95, grid.y);
-                            
-                            // Create animated gradient
-                            float noise = sin(vUv.x * 10.0 + time) * sin(vUv.y * 10.0 + time) * 0.5 + 0.5;
-                            vec3 color = mix(color1, color2, noise);
-                            
-                            // Add pixel edges
-                            float edge = length(vPosition);
-                            edge = smoothstep(0.9, 1.0, edge);
-                            
-                            // Add grid lines
-                            color = mix(color, vec3(1.0), gridLine * 0.3);
-                            
-                            // Add glow at edges
-                            color = mix(color, vec3(1.0), edge * 0.5);
-                            
-                            // Final color with alpha
-                            gl_FragColor = vec4(color, 1.0);
-                        }
-                    `
-                });
-                
-        <body>
+    
     <script>
         // We no longer need the custom cursor JS since we're using CSS cursors
         

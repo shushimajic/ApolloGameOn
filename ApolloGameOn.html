@@ -110,7 +110,19 @@
             transform: translateY(-5px);
             box-shadow: 0 0 20px rgba(255, 102, 204, 0.6);
         }
-        
+        @media (max-width: 768px) {
+            .info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            }
+            
+            /* Target the third info box to make it full width */
+            .info > div:nth-child(3) {
+            grid-column: 1 / -1;  /* Make it span all columns */
+            width: 100%;
+            }
+        }
         .acts-container {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -595,11 +607,6 @@
                 <p>💰 ALL PROCEEDS WILL GO TO</p>
                 <p>PETER MAC CANCER CENTRE</p>
             </div>
-            <div class="info-box ticket-box">
-                <a href="https://www.trybooking.com/events/landing/1386769" class="ticket-link" target="_blank">
-                    <p>🎟️ TICKET LINK</p>
-                </a>
-            </div>
             
         </div>
         <!-- Prominent Ticket Link Section -->
@@ -610,6 +617,104 @@
             </a>
         </div>
         <div class="acts-container">
+            <!-- Jazz Band Card -->
+            <div class="act-card">
+                <div class="card-front">
+                    <div class="act-header">
+                        <div class="act-title">JAZZ BAND</div>
+                    </div>
+                    <div class="act-icon">🎺</div>
+                    <button class="flip-btn">VIEW SETLIST</button>
+                </div>
+                <div class="card-back">
+                    <div class="act-title" style="font-size: 1.2rem;">JAZZ BAND</div>
+                    <div class="setlist">
+                        <div class="song">
+                            <div class="song-title">Jump Up, Super Star!</div>
+                            <div class="song-composer">by Naoto Kuno & Rob Tunstall</div>
+                            <div class="song-game">(Super Mario Odyssey)</div>
+                        </div>
+                        <div class="song">
+                            <div class="song-title">I've Got You Under My Skin</div>
+                            <div class="song-composer">by Cole Porter</div>
+                            <div class="song-game">(Batman: Arkham Knight)</div>
+                        </div>
+                        <div class="song">
+                            <div class="song-title">The Credits Roll</div>
+                            <div class="song-composer">by Koji Kondo</div>
+                            <div class="song-game">(Super Mario 3D World)</div>
+                        </div>
+                    </div>
+                    <button class="back-btn">BACK</button>
+                </div>
+            </div>
+            
+            <!-- Fusion Stage Band Card -->
+            <div class="act-card">
+                <div class="card-front">
+                    <div class="act-header">
+                        <div class="act-title">FUSION STAGE BAND</div>
+                    </div>
+                    <div class="act-icon">🎷</div>
+                    <button class="flip-btn">VIEW SETLIST</button>
+                </div>
+                <div class="card-back">
+                    <div class="act-title" style="font-size: 1rem;">FUSION STAGE BAND</div>
+                    <div class="setlist">
+                        <div class="song">
+                            <div class="song-title">Dragonborn</div>
+                            <div class="song-composer">by Jeremy Soule arr. Patrick Glenn Harper, Zoe Malone</div>
+                            <div class="song-game">(Skyrim)</div>
+                        </div>
+                        <div class="song">
+                            <div class="song-title">Ballad of the Goddess</div>
+                            <div class="song-composer">by Hajime Wakai & Takeshi Hama arr. Madeleine Salisbury</div>
+                            <div class="song-game">(Legend of Zelda: Skyward Sword)</div>
+                        </div>
+                        <div class="song">
+                            <div class="song-title">Baba Yetu</div>
+                            <div class="song-composer">by Christopher Tin arr. Johnnie Vinson, Zoe Malone</div>
+                            <div class="song-game">(Civilization IV)</div>
+                        </div>
+                        <div class="song">
+                            <div class="song-title">Sogno di Volare ("The Dream of Flight")</div>
+                            <div class="song-composer">by Christopher Tin arr. Matt Conaway, Zoe Malone</div>
+                            <div class="song-game">(Civilization VI)</div>
+                            <div class="song-note">in collaboration with Choir</div>
+                        </div>
+                    </div>
+                    <button class="back-btn">BACK</button>
+                </div>
+            </div>
+            <!-- Strings Ensemble Card -->
+            <div class="act-card">
+                <div class="card-front">
+                    <div class="act-header">
+                        <div class="act-title">STRINGS ENSEMBLE</div>
+                    </div>
+                    <div class="act-icon">🎻</div>
+                    <button class="flip-btn">VIEW SETLIST</button>
+                </div>
+                <div class="card-back">
+                    <div class="act-title" style="font-size: 1.2rem;">STRINGS ENSEMBLE</div>
+                    <div class="setlist">
+                        <div class="song">
+                            <div class="song-title">Star Dew Valley Suite</div>
+                            <div class="song-game">(Stardew Valley)</div>
+                        </div>
+                        <div class="song">
+                            <div class="song-title">Bubble Gum K</div>
+                            <div class="song-game">(Animal Crossing)</div>
+                        </div>
+                        <div class="song">
+                            <div class="song-title">Rosalina In the Observatory</div>
+                            <div class="song-game">(Mario Galaxy)</div>
+                        </div>
+                    </div>
+                    <button class="back-btn">BACK</button>
+                </div>
+            </div>
+        </div>
             <!-- Choir Card -->
             <div class="act-card">
                 <div class="card-front">
@@ -697,44 +802,6 @@
                 </div>
             </div>
             
-            <!-- Fusion Stage Band Card -->
-            <div class="act-card">
-                <div class="card-front">
-                    <div class="act-header">
-                        <div class="act-title">FUSION STAGE BAND</div>
-                    </div>
-                    <div class="act-icon">🎷</div>
-                    <button class="flip-btn">VIEW SETLIST</button>
-                </div>
-                <div class="card-back">
-                    <div class="act-title" style="font-size: 1rem;">FUSION STAGE BAND</div>
-                    <div class="setlist">
-                        <div class="song">
-                            <div class="song-title">Dragonborn</div>
-                            <div class="song-composer">by Jeremy Soule arr. Patrick Glenn Harper, Zoe Malone</div>
-                            <div class="song-game">(Skyrim)</div>
-                        </div>
-                        <div class="song">
-                            <div class="song-title">Ballad of the Goddess</div>
-                            <div class="song-composer">by Hajime Wakai & Takeshi Hama arr. Madeleine Salisbury</div>
-                            <div class="song-game">(Legend of Zelda: Skyward Sword)</div>
-                        </div>
-                        <div class="song">
-                            <div class="song-title">Baba Yetu</div>
-                            <div class="song-composer">by Christopher Tin arr. Johnnie Vinson, Zoe Malone</div>
-                            <div class="song-game">(Civilization IV)</div>
-                        </div>
-                        <div class="song">
-                            <div class="song-title">Sogno di Volare ("The Dream of Flight")</div>
-                            <div class="song-composer">by Christopher Tin arr. Matt Conaway, Zoe Malone</div>
-                            <div class="song-game">(Civilization VI)</div>
-                            <div class="song-note">in collaboration with Choir</div>
-                        </div>
-                    </div>
-                    <button class="back-btn">BACK</button>
-                </div>
-            </div>
-            
             <!-- The Other Card -->
             <div class="act-card">
                 <div class="card-front">
@@ -759,38 +826,6 @@
                         <div class="song">
                             <div class="song-title">Killer Queen</div>
                             <div class="song-composer">by Queen</div>
-                        </div>
-                    </div>
-                    <button class="back-btn">BACK</button>
-                </div>
-            </div>
-            
-            <!-- Jazz Band Card -->
-            <div class="act-card">
-                <div class="card-front">
-                    <div class="act-header">
-                        <div class="act-title">JAZZ BAND</div>
-                    </div>
-                    <div class="act-icon">🎺</div>
-                    <button class="flip-btn">VIEW SETLIST</button>
-                </div>
-                <div class="card-back">
-                    <div class="act-title" style="font-size: 1.2rem;">JAZZ BAND</div>
-                    <div class="setlist">
-                        <div class="song">
-                            <div class="song-title">Jump Up, Super Star!</div>
-                            <div class="song-composer">by Naoto Kuno & Rob Tunstall</div>
-                            <div class="song-game">(Super Mario Odyssey)</div>
-                        </div>
-                        <div class="song">
-                            <div class="song-title">I've Got You Under My Skin</div>
-                            <div class="song-composer">by Cole Porter</div>
-                            <div class="song-game">(Batman: Arkham Knight)</div>
-                        </div>
-                        <div class="song">
-                            <div class="song-title">The Credits Roll</div>
-                            <div class="song-composer">by Koji Kondo</div>
-                            <div class="song-game">(Super Mario 3D World)</div>
                         </div>
                     </div>
                     <button class="back-btn">BACK</button>
@@ -827,35 +862,7 @@
                 </div>
             </div>
             
-            <!-- Strings Ensemble Card -->
-            <div class="act-card">
-                <div class="card-front">
-                    <div class="act-header">
-                        <div class="act-title">STRINGS ENSEMBLE</div>
-                    </div>
-                    <div class="act-icon">🎻</div>
-                    <button class="flip-btn">VIEW SETLIST</button>
-                </div>
-                <div class="card-back">
-                    <div class="act-title" style="font-size: 1.2rem;">STRINGS ENSEMBLE</div>
-                    <div class="setlist">
-                        <div class="song">
-                            <div class="song-title">Star Dew Valley Suite</div>
-                            <div class="song-game">(Stardew Valley)</div>
-                        </div>
-                        <div class="song">
-                            <div class="song-title">Bubble Gum K</div>
-                            <div class="song-game">(Animal Crossing)</div>
-                        </div>
-                        <div class="song">
-                            <div class="song-title">Rosalina In the Observatory</div>
-                            <div class="song-game">(Mario Galaxy)</div>
-                        </div>
-                    </div>
-                    <button class="back-btn">BACK</button>
-                </div>
-            </div>
-        </div>
+            
         
         <div class="charity-section pixel-border">
             <h2 class="charity-title">SUPPORTING PETER MAC CANCER CENTRE</h2>

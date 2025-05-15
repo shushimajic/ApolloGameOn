@@ -35,13 +35,13 @@
         /* Hide default cursor on desktop */
         @media (pointer: fine) {
             body {
-                cursor: url('https://shushimajic.github.io/ApolloGameOn/cursor-arrow.png'), auto;
+                cursor: url('cursor-arrow.png'), auto;
             }
             
             button, a, .flip-btn, .back-btn, [role="button"], 
             input[type="submit"], input[type="button"], input[type="reset"],
             .act-card:hover {
-                cursor: url('https://shushimajic.github.io/ApolloGameOn/cursor-pointer.png'), pointer !important;
+                cursor: url('cursor-pointer.png'), pointer !important;
             }
         }
         
@@ -394,13 +394,112 @@
                 padding: 8px;
             }
         }
+        /* Social Media Buttons */
+        .social-buttons {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between; /* Spread buttons evenly */
+            width: 100%; /* Take up full width */
+            max-width: 1100px; /* Limit maximum width */
+            margin: 3rem auto 2rem; /* Center horizontally with space above and below */
+            padding: 0 1rem; /* Add some padding on the sides */
+        }
+
+        .social-btn {
+            padding: 15px 20px;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.85rem;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            text-align: center;
+            box-shadow: 0 4px 0 rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            color: var(--dark);
+            position: relative;
+            overflow: hidden;
+            display: block;
+            min-width: 180px; /* Set minimum width for buttons */
+        }
+
+        .social-btn::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: linear-gradient(rgba(255, 255, 255, 0.2) 50%, transparent 50%);
+            background-size: 100% 4px;
+            pointer-events: none;
+        }
+
+        .social-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 0 rgba(0, 0, 0, 0.3);
+        }
+
+        .social-btn:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 0 rgba(0, 0, 0, 0.3);
+        }
+
+        .join-btn {
+            background-color: var(--accent);
+            border: 2px solid #0099cc;
+        }
+
+        .join-btn:hover {
+            background-color: #33d6ff;
+        }
+
+        .instagram-btn {
+            background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+            border: 2px solid #cc2366;
+        }
+
+        .instagram-btn:hover {
+            opacity: 0.9;
+            background-size: 200% 200%;
+            animation: gradient-animation 3s ease infinite;
+        }
+
+        .facebook-btn {
+            background-color: #1877F2;
+            border: 2px solid #0d65d9;
+        }
+
+        .facebook-btn:hover {
+            background-color: #3b8df5;
+        }
+
+        @keyframes gradient-animation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .social-buttons {
+                flex-direction: column;
+                align-items: center;
+                gap: 15px;
+            }
+            
+            .social-btn {
+                padding: 10px 12px;
+                font-size: 0.6rem;
+                min-width: 150px;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="custom-cursor"></div>
     
     <!-- Afterparty Text Bubble -->
-    <div class="afterparty-bubble" onclick="alert('AFTERPARTY INFO! 🎮\\n\\nJoin us after the show at BALLERS CLUBHOUSE!\\nShow your concert ticket for a free welcome drink!')">
+    <div class="afterparty-bubble" onclick="alert('enter the cheatcode to find the secret backstage...')">
         <div style="color: var(--text);">COME TO THE</div>
         <div style="color: var(--accent); font-size: 0.7rem; margin: 4px 0;">AFTERPARTY!</div>
         <div style="color: var(--text); font-size: 0.55rem; margin-top: 5px;">LOCATION:</div>
@@ -410,15 +509,15 @@
     <div class="container">
         <header class="pixel-border">
             <div class="logo-title">
+                <div class="subtitle">APOLLO MUSIC SOCIETY PRESENTS</div>
                 <h1>GAME ON</h1>
                 <div class="subtitle">CHARITY CONCERT</div>
-                <div class="subtitle">APOLLO MUSIC SOCIETY PRESENTS</div>
             </div>
             
             <div class="game-icon" style="top: 20%; left: 10%;">🎮</div>
             <div class="game-icon" style="top: 60%; left: 80%;">🎵</div>
-            <div class="game-icon" style="top: 30%; left: 85%;">🎲</div>
-            <div class="game-icon" style="top: 70%; left: 15%;">🎯</div>
+            <div class="game-icon" style="top: 30%; left: 85%;">🎮</div>
+            <div class="game-icon" style="top: 70%; left: 15%;">🎵</div>
         </header>
         
         <div class="info">
@@ -686,16 +785,23 @@
         
         <div class="charity-section pixel-border">
             <h2 class="charity-title">SUPPORTING PETER MAC CANCER CENTRE</h2>
-            <div style="width:120px; height:120px; margin:0 auto; background:linear-gradient(135deg, #aa0082, #ff66cc); border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:3rem; margin-bottom:1rem;">❤️</div>
+            <div style="width:120px; height:120px; margin:0 auto; background:linear-gradient(135deg, #aa0082, #ff66cc); border-radius:12px; display:flex; align-items:center; justify-content:center; margin-bottom:1rem; padding:15px; box-sizing:border-box; overflow:hidden;">
+                <img src="logo.png" alt="Peter Mac Logo" style="max-width:100%; max-height:100%; object-fit:contain; display:block;">
+            </div>
             <div class="charity-info">
                 <p>All proceeds from this event will go directly to the Peter MacCallum Cancer Centre to support their vital research and patient care programs.</p>
                 <p style="margin-top:1rem;">Thank you for supporting this important cause while enjoying an evening of game-inspired music!</p>
             </div>
         </div>
-        
+        <!-- Social media buttons container -->
+        <div class="social-buttons">
+            <a href="https://umsu.unimelb.edu.au/buddy-up/clubs/clubs-listing/join/apollo/" class="social-btn join-btn" target="_blank">JOIN OUR CLUB!</a>
+            <a href="https://www.instagram.com/apollomusicsociety/" class="social-btn instagram-btn" target="_blank">INSTAGRAM</a>
+            <a href="https://www.facebook.com/apollomusicsociety/" class="social-btn facebook-btn" target="_blank">FACEBOOK</a>
+        </div>
         <footer>
             <p>Created by Apollo Music Society</p>
-            <p>© 2025 - University of Melbourne</p>
+            <p>© 2025 - Apollo Music Society</p>
         </footer>
     </div>
     

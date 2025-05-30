@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game On: Concert Countdown</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+        
+        :root {
+            --primary: #330066;
+            --secondary: #9900cc;
+            --accent: #00ccff;
+            --pink: #ff66cc;
+            --text: #ffffff;
+            --dark: #110022;
+            --green: #00ff88;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background-color: var(--dark);
+            color: var(--text);
+            font-family: 'Press Start 2P', cursive;
+            overflow: hidden;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        
+        /* Animated starfield background */
+        .starfield {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            background: linear-gradient(45deg, var(--dark) 0%, #1a0033 50%, var(--dark) 100%);
+        }
+        
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 2s ease-in-out infinite;
+        }
+        
+        .star:nth-child(odd) {
+            animation-delay: 1s;
+        }
+        
+        .star.large {
+            width: 3px;
+            height: 3px;
+            box-shadow: 0 0 10px var(--accent);
+        }
+        
+        .star.medium {
+            width: 2px;
+            height: 2px;
+            box-shadow: 0 0 5px var(--pink);
+        }
+        
+        .star.small {
+            width: 1px;
+            height: 1px;
+            box-shadow: 0 0 3px white;
+        }
+        
+        /* Floating particles */
+        .particle {
+            position: absolute;
+            background: var(--accent);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: float-particle 15s linear infinite;
+        }
+        
+        .particle:nth-child(2n) {
+            background: var(--pink);
+            animation-duration: 12s;
+        }
+        
+        .particle:nth-child(3n) {
+            background: var(--green);
+            animation-duration: 18s;
+        }
+        
+        /* Main container */
+        .countdown-container {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            background: rgba(51, 0, 102, 0.2);
+            backdrop-filter: blur(10px);
+            border: 3px solid var(--pink);
+            border-radius: 20px;
+            padding: 4rem 3rem;
+            box-shadow: 
+                0 0 30px rgba(255, 102, 204, 0.4),
+                inset 0 0 30px rgba(0, 204, 255, 0.1);
+            animation: container-pulse 4s ease-in-out infinite;
+        }
+        
+        .title {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, var(--accent), var(--pink), var(--green));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: rainbow-text 3s ease-in-out infinite;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--text);
+            margin-bottom: 3rem;
+            text-shadow: 0 0 10px var(--accent);
+            animation: glow-pulse 2s ease-in-out infinite;
+        }
+        
+        .timer-display {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            margin-bottom: 3rem;
+            max-width: 800px;
+        }
+        
+        .time-unit {
+            background: rgba(0, 0, 0, 0.5);
+            border: 2px solid var(--accent);
+            border-radius: 15px;
+            padding: 2rem 1rem;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .time-unit::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                45deg,
+                transparent,
+                rgba(0, 204, 255, 0.1),
+                transparent
+            );
+            animation: scan-line 3s linear infinite;
+        }
+        
+        .time-unit:hover {
+            transform: scale(1.05);
+            border-color: var(--pink);
+            box-shadow: 0 0 20px var(--pink);
+        }
+        
+        .time-number {
+            font-size: 4rem;
+            color: var(--accent);
+            text-shadow: 0 0 15px currentColor;
+            animation: number-glow 2s ease-in-out infinite;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .time-label {
+            font-size: 0.8rem;
+            color: var(--pink);
+            margin-top: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .concert-info {
+            font-size: 0.9rem;
+            color: var(--text);
+            line-height: 2;
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
+        }
+        
+        .concert-info strong {
+            color: var(--green);
+            text-shadow: 0 0 10px currentColor;
+        }
+        
+        /* Digital rain effect */
+        .digital-rain {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+            pointer-events: none;
+        }
+        
+        .rain-drop {
+            position: absolute;
+            color: var(--green);
+            font-size: 0.8rem;
+            animation: rain-fall 8s linear infinite;
+            opacity: 0.6;
+        }
+        
+        /* Countdown finished state */
+        .countdown-finished {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 100;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .finished-title {
+            font-size: 5rem;
+            color: var(--pink);
+            text-shadow: 0 0 30px currentColor;
+            animation: victory-pulse 1s ease-in-out infinite;
+            margin-bottom: 2rem;
+        }
+        
+        .finished-subtitle {
+            font-size: 2rem;
+            color: var(--accent);
+            text-shadow: 0 0 20px currentColor;
+            margin-bottom: 3rem;
+        }
+        
+        /* Explosion effect for countdown end */
+        .explosion {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: var(--pink);
+            border-radius: 50%;
+            animation: explode 1s ease-out forwards;
+        }
+        
+        /* All animations */
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+        
+        @keyframes float-particle {
+            0% { 
+                transform: translateY(100vh) translateX(-50px) rotate(0deg);
+                opacity: 0;
+            }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { 
+                transform: translateY(-100px) translateX(50px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        @keyframes container-pulse {
+            0%, 100% { 
+                box-shadow: 
+                    0 0 30px rgba(255, 102, 204, 0.4),
+                    inset 0 0 30px rgba(0, 204, 255, 0.1);
+            }
+            50% { 
+                box-shadow: 
+                    0 0 50px rgba(255, 102, 204, 0.8),
+                    inset 0 0 50px rgba(0, 204, 255, 0.2);
+            }
+        }
+        
+        @keyframes rainbow-text {
+            0% { filter: hue-rotate(0deg); }
+            100% { filter: hue-rotate(360deg); }
+        }
+        
+        @keyframes glow-pulse {
+            0%, 100% { text-shadow: 0 0 10px var(--accent); }
+            50% { text-shadow: 0 0 20px var(--accent), 0 0 30px var(--pink); }
+        }
+        
+        @keyframes scan-line {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+        
+        @keyframes number-glow {
+            0%, 100% { text-shadow: 0 0 15px currentColor; }
+            50% { text-shadow: 0 0 25px currentColor, 0 0 35px currentColor; }
+        }
+        
+        @keyframes rain-fall {
+            0% { 
+                transform: translateY(-100px);
+                opacity: 0;
+            }
+            10% { opacity: 0.6; }
+            90% { opacity: 0.6; }
+            100% { 
+                transform: translateY(100vh);
+                opacity: 0;
+            }
+        }
+        
+        @keyframes victory-pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        
+        @keyframes explode {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(10);
+                opacity: 0;
+            }
+        }
+        
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .title {
+                font-size: 2rem;
+            }
+            
+            .subtitle {
+                font-size: 1rem;
+            }
+            
+            .timer-display {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+            }
+            
+            .time-number {
+                font-size: 2.5rem;
+            }
+            
+            .time-label {
+                font-size: 0.7rem;
+            }
+            
+            .countdown-container {
+                padding: 2rem 1.5rem;
+                margin: 1rem;
+            }
+            
+            .finished-title {
+                font-size: 3rem;
+            }
+            
+            .finished-subtitle {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Animated starfield background -->
+    <div class="starfield" id="starfield"></div>
+    
+    <!-- Digital rain effect -->
+    <div class="digital-rain" id="digitalRain"></div>
+    
+    <!-- Main countdown container -->
+    <div class="countdown-container">
+        <h1 class="title">GAME ON</h1>
+        <p class="subtitle">CONCERT STARTS IN:</p>
+        
+        <div class="timer-display">
+            <div class="time-unit">
+                <div class="time-number" id="hours">00</div>
+                <div class="time-label">HOURS</div>
+            </div>
+            <div class="time-unit">
+                <div class="time-number" id="minutes">00</div>
+                <div class="time-label">MINUTES</div>
+            </div>
+            <div class="time-unit">
+                <div class="time-number" id="seconds">00</div>
+                <div class="time-label">SECONDS</div>
+            </div>
+            <div class="time-unit">
+                <div class="time-number" id="milliseconds">000</div>
+                <div class="time-label">MILLISEC</div>
+            </div>
+        </div>
+        
+        <div class="concert-info">
+            <strong>APOLLO MUSIC SOCIETY</strong><br>
+            <strong>MARKET HALL - UNIVERSITY OF MELBOURNE</strong><br>
+            <strong>FRIDAY, MAY 30TH 2025 - 6:00 PM</strong>
+        </div>
+    </div>
+    
+    <!-- Countdown finished overlay -->
+    <div class="countdown-finished" id="countdownFinished">
+        <div class="finished-title">CONCERT TIME!</div>
+        <div class="finished-subtitle">THE SHOW BEGINS NOW!</div>
+        <div class="concert-info">
+            <strong>WELCOME TO GAME ON!</strong><br>
+            <strong>ENJOY THE SHOW!</strong>
+        </div>
+    </div>
+    
+    <script>
+        // Set the target date and time (6 PM today)
+        const now = new Date();
+        const targetDate = new Date();
+        targetDate.setHours(18, 0, 0, 0); // 6 PM today
+        
+        // If it's already past 6 PM today, set it to 6 PM tomorrow
+        if (now > targetDate) {
+            targetDate.setDate(targetDate.getDate() + 1);
+        }
+        
+        // Create starfield
+        function createStarfield() {
+            const starfield = document.getElementById('starfield');
+            const starCount = 200;
+            
+            for (let i = 0; i < starCount; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                
+                // Random size
+                const sizes = ['small', 'medium', 'large'];
+                const size = sizes[Math.floor(Math.random() * sizes.length)];
+                star.classList.add(size);
+                
+                // Random position
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                
+                // Random animation delay
+                star.style.animationDelay = Math.random() * 2 + 's';
+                
+                starfield.appendChild(star);
+            }
+        }
+        
+        // Create floating particles
+        function createParticle() {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            
+            // Random size
+            const size = Math.random() * 4 + 2;
+            particle.style.width = size + 'px';
+            particle.style.height = size + 'px';
+            
+            // Random starting position
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.bottom = '-10px';
+            
+            document.body.appendChild(particle);
+            
+            // Remove particle after animation
+            setTimeout(() => {
+                if (particle.parentNode) {
+                    particle.parentNode.removeChild(particle);
+                }
+            }, 18000);
+        }
+        
+        // Create digital rain
+        function createDigitalRain() {
+            const rainContainer = document.getElementById('digitalRain');
+            const characters = '01010110110001011101010011001100101110100111001010101100110011101';
+            
+            for (let i = 0; i < 50; i++) {
+                const drop = document.createElement('div');
+                drop.className = 'rain-drop';
+                drop.textContent = characters[Math.floor(Math.random() * characters.length)];
+                drop.style.left = Math.random() * 100 + '%';
+                drop.style.animationDelay = Math.random() * 8 + 's';
+                drop.style.animationDuration = (Math.random() * 3 + 5) + 's';
+                rainContainer.appendChild(drop);
+            }
+        }
+        
+        // Create explosion effect
+        function createExplosion(x, y) {
+            for (let i = 0; i < 10; i++) {
+                const explosion = document.createElement('div');
+                explosion.className = 'explosion';
+                explosion.style.left = x + 'px';
+                explosion.style.top = y + 'px';
+                explosion.style.animationDelay = (i * 0.1) + 's';
+                document.body.appendChild(explosion);
+                
+                setTimeout(() => {
+                    if (explosion.parentNode) {
+                        explosion.parentNode.removeChild(explosion);
+                    }
+                }, 1000);
+            }
+        }
+        
+        // Play sound effect
+        function playSound(frequency, duration) {
+            const context = new (window.AudioContext || window.webkitAudioContext)();
+            const oscillator = context.createOscillator();
+            const gainNode = context.createGain();
+            
+            oscillator.type = 'square';
+            oscillator.frequency.value = frequency;
+            gainNode.gain.value = 0.1;
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(context.destination);
+            
+            oscillator.start();
+            setTimeout(() => {
+                oscillator.stop();
+            }, duration);
+        }
+        
+        // Update countdown timer
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const distance = targetDate.getTime() - now;
+            
+            if (distance < 0) {
+                // Countdown finished
+                document.getElementById('countdownFinished').style.display = 'flex';
+                
+                // Create explosions
+                for (let i = 0; i < 20; i++) {
+                    setTimeout(() => {
+                        createExplosion(
+                            Math.random() * window.innerWidth,
+                            Math.random() * window.innerHeight
+                        );
+                    }, i * 100);
+                }
+                
+                // Play victory sound
+                const victoryNotes = [523.25, 659.25, 783.99, 1046.50, 1318.51];
+                victoryNotes.forEach((freq, i) => {
+                    setTimeout(() => {
+                        playSound(freq, 300);
+                    }, i * 200);
+                });
+                
+                return;
+            }
+            
+            // Calculate time units
+            const hours = Math.floor(distance / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+            const milliseconds = Math.floor(distance % 1000);
+            
+            // Update display
+            document.getElementById('hours').textContent = String(hours).padStart(2, '0');
+            document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
+            document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
+            document.getElementById('milliseconds').textContent = String(milliseconds).padStart(3, '0');
+            
+            // Play tick sound every second
+            if (milliseconds < 50) {
+                playSound(800, 50);
+            }
+        }
+        
+        // Initialize everything
+        createStarfield();
+        createDigitalRain();
+        
+        // Start particle generation
+        setInterval(createParticle, 500);
+        
+        // Update countdown every 10ms for smooth millisecond display
+        setInterval(updateCountdown, 10);
+        
+        // Add keyboard interaction
+        document.addEventListener('keydown', (e) => {
+            if (e.code === 'Space') {
+                // Create explosion at random position when spacebar is pressed
+                createExplosion(
+                    Math.random() * window.innerWidth,
+                    Math.random() * window.innerHeight
+                );
+                playSound(440, 100);
+            }
+        });
+        
+        // Add click interaction
+        document.addEventListener('click', (e) => {
+            createExplosion(e.clientX, e.clientY);
+            playSound(660, 100);
+        });
+        
+        // Add some random sound effects
+        setInterval(() => {
+            if (Math.random() < 0.1) {
+                playSound(1200 + Math.random() * 400, 50);
+            }
+        }, 2000);
+    </script>
+</body>
+</html>
